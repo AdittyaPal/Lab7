@@ -4,7 +4,7 @@ class Node//defines the structure of each Node of the tree
 {
     public:
     int data;//stores the data
-    Node* left;//pointer ti the next node on the left
+    Node* left;//pointer to the next node on the left
     Node* right;//pointer to the next node on the right
     Node* previous;
     public:
@@ -92,54 +92,55 @@ class BinarySearchTree
             display(current->left,space);//the left subtree is displayed
         }
     }//end of function to display the tree horizontally
-    int count()
+    int count()//function to call the method to count the elements of the tree 
     {
-        return count(root);
-    }
-    int count(Node* current)
+        return count(root);//using the private method root
+    }//end of dummy function
+    int count(Node* current)//function to count the elements of the tree
     {
-        if(current!=NULL)
-        return (1+count(current->left)+count(current->right));
-        else
-        return 0;
-    }
-    int height()
+        if(current!=NULL)//if the node has some value
+        return (1+count(current->left)+count(current->right));//one is added to the number of nodes in the tree and the number of nodes in the left subtree and the right subtree are added
+        else//if the node does not exist
+        return 0;//end of the tree and 0 is returned
+    }//end of function to count the number of nodes in the tree
+    int height()//function to call the method to find the height of the tree 
     {
-        return height(root);
-    }
-    int height(Node* current)
+        return height(root);//using the private method root
+    }//end of dummy function
+    int height(Node* current)//function to find the height of the tree 
     {
-        if(current==NULL)
-        return 0;
+        if(current==NULL)//if the end of the tree is reached
+        return 0;//base case and xero is returned
         else 
         {
-            int leftHeight=height(current->left);
-            int rightHeight=height(current->right);
-            if(leftHeight>rightHeight)
-            return (1+leftHeight);
+            int leftHeight=height(current->left);//height of the left subtree is calculated
+            int rightHeight=height(current->right);//height of the right subtree is calculated
+            if(leftHeight>rightHeight)//they are compared
+            return (1+leftHeight);//and the maximum among them is returned after adding one to it
             else
-            return (1+rightHeight);
+            return (1+rightHeight);//for the current level
         }
-    }
-    int rangeSearch(int k1,int k2)
+    }//end of the function to find the height of the tree 
+    int rangeSearch(int k1,int k2)//function to call the method to print all elements of the tree between k1 and k2
     {
-        return rangeSearch(root,k1,k2);
-    }
-    int rangeSearch(Node* current,int k1,int k2)
+        return rangeSearch(root,k1,k2);//using the private method root
+        cout<<endl;
+    }//end of dummy function
+    int rangeSearch(Node* current,int k1,int k2)//function to print all elements of the tree between k1 and k2
     {
-        if(current!=NULL)
+        if(current!=NULL)//if the end of the tree is not reached
         {
-            if(current->data>k1&&current->data<k2)
-            cout<<current->data<<", ";
-            if(current->data>k1)
-            rangeSearch(current->left,k1,k2);
-            if(current->data<k2)
-            rangeSearch(current->right,k1,k2);
-            
-            
-        return (1+count(current->left)+count(current->right));
-        else
-        return 0;
+            if(current->data>k1&&current->data<k2)//and the data in the node is within the range
+	    {
+           	cout<<current->data<<", ";//it is printed
+            	return (1+rangeSearch(current->left,k1,k2)+rangeSearch(current->right,k1,k2));//and counted along with those in its left subtree and the right subtree
+	    }
+	    else//otherwise
+	    return rangeSearch(current->left,k1,k2)+rangeSearch(current->right,k1,k2);//elements in the range of its left subtree and right subtree and counted 
+	}
+        else//if the end of the tree is reached
+        return 0;//base case 
+    }//emd of the function to print all elements of the tree between k1 and k2
 };
 int main()//main function
 {
@@ -161,5 +162,10 @@ int main()//main function
     b1.display();
     cout<<"The number of nodes in the tree is "<<b1.count()<<endl;
     cout<<"The height of the tree is "<<b1.height()<<endl;
-    
+    int i,j=0;
+    cout<<"Enter the two boundary values.\n";
+    cin>>i;
+    cin>>j;
+    value=b1.rangeSearch(i,j);
+    cout<<"There are "<<value<<" elements between "<<i<<" and "<<j<<endl;
 }
